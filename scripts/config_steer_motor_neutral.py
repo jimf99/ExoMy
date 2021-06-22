@@ -14,6 +14,8 @@ def get_steering_motor_pins():
     for param_key, param_value in param_dict.items():
         if('pin_steer_' in str(param_key)):
             steering_motor_pins[param_key] = param_value
+        if('pin_camera_' in str(param_key)):
+            steering_motor_pins[param_key] = param_value        
     return steering_motor_pins
 
 def get_steering_pwm_neutral_values():
@@ -23,6 +25,8 @@ def get_steering_pwm_neutral_values():
 
     for param_key, param_value in param_dict.items():
         if('steer_pwm_neutral_' in str(param_key)):
+            steering_pwm_neutral_values[param_key] = param_value
+        if('camera_pwm_neutral_' in str(param_key)):
             steering_pwm_neutral_values[param_key] = param_value
     return steering_pwm_neutral_values
 
@@ -41,6 +45,10 @@ def get_position_name(name):
         position_name = 'Rear Left'
     elif('_rr' in name):
         position_name = 'Rear Right'
+    elif('_pan' in name):
+        position_name = 'Camera Pan'
+    elif('_tilt' in name):
+        position_name = 'Camera Tilt'
 
     return position_name
 
@@ -120,8 +128,12 @@ ctrl+c - Exit script
     steering_motor_pins = get_steering_motor_pins()
     pwm_neutral_dict = get_steering_pwm_neutral_values()
     # Iterating over all motors and fine tune the zero value
-    for pin_name, pin_value in steering_motor_pins.items():
-        pwm_neutral_name = pin_name.replace('pin_steer_', 'steer_pwm_neutral_')
+    for pin_name, pin_value in steering_motor_pins.items():       
+        if('pin_steer_' in pin_name):
+            pwm_neutral_name = pin_name.replace('pin_steer_', 'steer_pwm_neutral_')
+        elif('pin_camera' in pin_name):
+            pwm_neutral_name = pin_name.replace('pin_camera_', 'camera_pwm_neutral_')
+
         pwm_neutral_value = pwm_neutral_dict[pwm_neutral_name] 
 
         print('Set ' + get_position_name(pin_name) + ' steering motor: \n')
