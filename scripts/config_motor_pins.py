@@ -12,6 +12,8 @@ pos_names = {
     4: 'cr',
     5: 'rl',
     6: 'rr',
+    7: 'pan',
+    8: 'tilt',
 }
 
 pin_dict = {
@@ -72,6 +74,7 @@ def print_exomy_layout():
              ||
         3 cl-||-cr 4
         5 rl====rr 6
+        7 pan tilt 8
         '''
     )
 
