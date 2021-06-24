@@ -2,6 +2,7 @@
     <node name="robot" pkg="exomy" type="robot_node.py" respawn="true" output="screen"/>
     <node name="motors" pkg="exomy" type="motor_node.py" respawn="true" output="screen" />
     <node name="joystick" pkg="exomy" type="joystick_parser_node.py" respawn="true" output="screen" />
+    <node name="servos" pkg="exomy" type="servo_node.py" respawn="true" output="screen" />
 
     <node respawn="true" pkg="joy" type="joy_node" name="joy_node">
         <param name="coalesce_interval" value="0.05"/>
