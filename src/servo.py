@@ -54,18 +54,18 @@ class Servo():
         if rospy.get_param("pin_camera_pan")  != 99:
             self.servo_pwm_neutral[self.S_ONE] = rospy.get_param("camera_pwm_neutral_pan")
             self.servo_pwm_range[self.S_ONE] = rospy.get_param("camera_pwn_range")
-            # self.servo_pwm_degree_offset[self.S_ONE] = rospy.get_param("servo_pwm_center_degree_offset_1")
+            self.servo_pwm_degree_offset[self.S_ONE] = 0 # rospy.get_param("servo_pwm_center_degree_offset_1")
             # self.servo_startup_position[self.S_ONE] = rospy.get_param("servo_startup_position_1")
-            # self.servo_ccw_degree[self.S_ONE] = rospy.get_param("servo_ccw_degree_1")
-            # self.servo_cw_degree[self.S_ONE] = rospy.get_param("servo_cw_degree_1")
+            self.servo_ccw_degree[self.S_ONE] = -90 # rospy.get_param("servo_ccw_degree_1")
+            self.servo_cw_degree[self.S_ONE] = 90 #rospy.get_param("servo_cw_degree_1")
 
         if rospy.get_param("pin_camera_tilt")  != 99:
             self.servo_pwm_neutral[self.S_TWO] = rospy.get_param("camera_pwm_neutral_tilt")
             self.servo_pwm_range[self.S_TWO] = rospy.get_param("camera_pwn_range")
-            # self.servo_pwm_degree_offset[self.S_TWO] = rospy.get_param("servo_pwm_center_degree_offset_2")
+            self.servo_pwm_degree_offset[self.S_TWO] = 0 # rospy.get_param("servo_pwm_center_degree_offset_2")
             # self.servo_startup_position[self.S_TWO] = rospy.get_param("servo_startup_position_2")
-            # self.servo_ccw_degree[self.S_TWO] = rospy.get_param("servo_ccw_degree_2")
-            # self.servo_cw_degree[self.S_TWO] = rospy.get_param("servo_cw_degree_2")
+            self.servo_ccw_degree[self.S_TWO] = -90 # rospy.get_param("servo_ccw_degree_2")
+            self.servo_cw_degree[self.S_TWO] = 90 # rospy.get_param("servo_cw_degree_2")
 
         # if rospy.get_param("pin_servo_3")  != 99:
         #     self.servo_pwm_neutral[self.S_THREE] = rospy.get_param("servo_pwm_neutral_3")
@@ -96,13 +96,18 @@ class Servo():
                 pass
 
     def setAngle(self, angle_command):
+        rospy.loginfo(angle_command)
         # Loop through pin dictionary. The items key is the servo_name and the value the pin.
         # Send 99 as angle_command if value/angle should not be changed
         for servo_name, servo_pin in self.pins['servo'].items():
+            rospy.loginfo(servo_name)
             if servo_pin != 99:
+                rospy.loginfo(angle_command[servo_name])
                 #90 degree limit protection (does not protect from false configuration of PWM settings)
                 if angle_command[servo_name] >= -90 and angle_command[servo_name] <= 90:
                     #Variable limits check set in exomy_servo_node.yaml
+                    rospy.loginfo(self.servo_ccw_degree[servo_name])
+                    rospy.loginfo(self.servo_cw_degree[servo_name])
                     if angle_command[servo_name] >= self.servo_ccw_degree[servo_name] and angle_command[servo_name] <= self.servo_cw_degree[servo_name]:
                         # Save angle in class memory
                         self.angle[servo_name] = angle_command[servo_name]

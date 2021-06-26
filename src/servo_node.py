@@ -14,7 +14,7 @@ def callback(cmds):
 
 if __name__ == "__main__":
     # This node waits for commands from the robot and sets the motors accordingly
-    rospy.init_node("motors")
+    rospy.init_node("servos")
     rospy.loginfo("Starting the servo node")
 
     sub = rospy.Subscriber(
