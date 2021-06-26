@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from sensor_msgs.msg import Joy
-from exomy.msg import RoverCommand
+from exomy.msg import RoverCommand, ServoCommands
 from locomotion_modes import LocomotionMode
 import math
 
@@ -12,6 +12,9 @@ global motors_enabled
 locomotion_mode = LocomotionMode.ACKERMANN.value
 motors_enabled = True
 
+def maprange( a, b, s):
+	(a1, a2), (b1, b2) = a, b
+	return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
 
 def callback(data):
 
@@ -19,6 +22,7 @@ def callback(data):
     global motors_enabled
 
     rover_cmd = RoverCommand()
+    servo_cmds = ServoCommands()
 
     # Function map for the Logitech F710 joystick
     # Button on pad | function
@@ -30,8 +34,8 @@ def callback(data):
     # START Button  | Enable and disable motors
 
     # Reading out joystick data
-    y = data.axes[1]
-    x = data.axes[0]
+    y = data.axes[5]
+    x = data.axes[4]
 
     # Reading out button data to set locomotion mode
     # X Button
@@ -80,6 +84,13 @@ def callback(data):
 
     pub.publish(rover_cmd)
 
+    servo_cmds.servo_angles = [0 for i in range(4)] 
+
+    servo_cmds.servo_angles[0] = maprange( (-1, 1), (-90, 90), data.axes[2])
+    servo_cmds.servo_angles[1] = maprange( (-1, 1), (-90, 90), data.axes[3]) * -1 # reverse sign
+
+    servo_pub.publish(servo_cmds)
+
 
 if __name__ == '__main__':
     global pub
@@ -89,5 +100,6 @@ if __name__ == '__main__':
 
     sub = rospy.Subscriber("/joy", Joy, callback, queue_size=1)
     pub = rospy.Publisher('/rover_command', RoverCommand, queue_size=1)
+    servo_pub = rospy.Publisher('/servo_commands', ServoCommands, queue_size=1)
 
     rospy.spin()
