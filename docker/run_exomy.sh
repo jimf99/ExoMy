@@ -69,6 +69,7 @@ docker run \
     -p 8080:8080 \
     -p 9090:9090 \
     --privileged \
+    -v /dev/serial0:/dev/serial0 \
     ${options} \
     --name "${container_name}" \
     "${image_name}" \

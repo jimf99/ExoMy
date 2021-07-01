@@ -1,4 +1,7 @@
 #!/bin/bash
+
+/usr/sbin/gpsd /dev/serial0 -F /var/run/gpsd.sock
+
 if [[ $1 == "config" ]]
 then
 	cd /root/exomy_ws/src/exomy/scripts

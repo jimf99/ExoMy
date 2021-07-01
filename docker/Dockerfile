@@ -4,9 +4,11 @@ FROM ros:melodic
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
+
 # Basic tools
-RUN apt-get update && \
-    apt-get install vim nano git tmux wget curl python-pip net-tools iputils-ping  -y
+RUN apt-get update
+RUN apt-get install vim nano git tmux wget curl python-pip net-tools iputils-ping -y
 
 # Install additional ros packages
 RUN apt-get update && apt-get install ros-melodic-rosbridge-server ros-melodic-joy -y
@@ -22,6 +24,11 @@ RUN npm install http-server -g
 # Install packages for camera use
 RUN apt-get update && \
     apt-get install ros-melodic-web-video-server ros-melodic-usb-cam -y
+
+
+# install gpsd and clients
+RUN apt-get update
+RUN apt-get install gpsd gpsd-clients -y
 
 # Add ros sourcing to bashrc
 RUN echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
