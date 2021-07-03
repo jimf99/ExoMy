@@ -14,7 +14,6 @@ RUN apt-get install vim nano git tmux wget curl python-pip net-tools iputils-pin
 RUN apt-get update && apt-get install ros-melodic-rosbridge-server ros-melodic-joy -y
 RUN pip install adafruit-pca9685
 
-
 # Install packages for web application
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get update && \
@@ -25,10 +24,9 @@ RUN npm install http-server -g
 RUN apt-get update && \
     apt-get install ros-melodic-web-video-server ros-melodic-usb-cam -y
 
-
 # install gpsd and clients
 RUN apt-get update
-RUN apt-get install gpsd gpsd-clients -y
+RUN apt-get install gpsd gpsd-clients i2c-tools -y
 
 # Add ros sourcing to bashrc
 RUN echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
