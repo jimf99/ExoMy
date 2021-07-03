@@ -65,6 +65,7 @@ fi
 docker run \
     -it \
     -v ~/ExoMy_Software:/root/exomy_ws/src/exomy \
+    -v ~/ExoMy_Software/modules/ros-imu-bno055:/root/exomy_ws/src/ros-imu-bno055 \
     -p 8000:8000 \
     -p 8080:8080 \
     -p 9090:9090 \
