@@ -3,6 +3,11 @@
     <node name="motors" pkg="exomy" type="motor_node.py" respawn="true" output="screen" />
     <node name="joystick" pkg="exomy" type="joystick_parser_node.py" respawn="true" output="screen" />
     <node name="servos" pkg="exomy" type="servo_node.py" respawn="true" output="screen" />
+        <node ns="imu" name="imu_node" pkg="imu_bno055" type="bno055_i2c_node" respawn="true" respawn_delay="2">
+        <param name="device" type="string" value="/dev/i2c-1"/>
+        <param name="address" type="int" value="40"/> <!-- 0x28 == 40 is the default for BNO055 -->
+        <param name="frame_id" type="string" value="imu"/>
+    </node>
 
     <node respawn="true" pkg="joy" type="joy_node" name="joy_node">
         <param name="coalesce_interval" value="0.05"/>
