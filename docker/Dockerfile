@@ -26,7 +26,10 @@ RUN apt-get update && \
 
 # install gpsd and clients
 RUN apt-get update
-RUN apt-get install gpsd gpsd-clients i2c-tools libi2c-dev -y
+RUN apt-get install gpsd gpsd-clients i2c-tools libi2c-dev build-essential python-dev -y
+
+RUN pip install smbus
+RUN pip install smbus2
 
 # Add ros sourcing to bashrc
 RUN echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
