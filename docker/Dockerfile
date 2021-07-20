@@ -1,7 +1,7 @@
 # Base image
 FROM ros:melodic 
 
-ENV TZ=Europe/Amsterdam
+ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
@@ -26,7 +26,7 @@ RUN apt-get update && \
 
 # install gpsd and clients
 RUN apt-get update
-RUN apt-get install gpsd gpsd-clients i2c-tools libi2c-dev build-essential python-dev -y
+RUN apt-get install gpsd gpsd-clients i2c-tools libi2c-dev build-essential python-dev libgps-dev -y
 
 RUN pip install smbus
 RUN pip install smbus2

@@ -67,6 +67,7 @@ docker run \
     -v ~/ExoMy_Software:/root/exomy_ws/src/exomy \
     -v ~/ExoMy_Software/modules/ros-imu-bno055:/root/exomy_ws/src/ros-imu-bno055 \
     -v ~/ExoMy_Software/modules/vl53l0x-ros:/root/exomy_ws/src/vl53l0x-ros \
+    -v ~/ExoMy_Software/modules/gps_umd_orig:/root/exomy_ws/src/gps_umd \
     -p 8000:8000 \
     -p 8080:8080 \
     -p 9090:9090 \
@@ -76,3 +77,9 @@ docker run \
     --name "${container_name}" \
     "${image_name}" \
     "${start_command}"
+
+
+
+    # -v ~/ExoMy_Software/modules/gps_umd/gps_common:/root/exomy_ws/src/gps_umd/gps_common \
+    # -v ~/ExoMy_Software/modules/gps_umd/gps_umd:/root/exomy_ws/src/gps_umd/gps_umd \
+    # -v ~/ExoMy_Software/modules/gps_umd/gps_client:/root/exomy_ws/src/gps_umd/gps_client \
