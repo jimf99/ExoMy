@@ -50,6 +50,9 @@ def callback(data):
     # Y Button
     if (data.buttons[3] == 1):
         locomotion_mode = LocomotionMode.CRABBING.value
+    # RB Button
+    if (data.buttons[5] == 1):
+        locomotion_mode = LocomotionMode.GOFORWARD.value
 
     rover_cmd.locomotion_mode = locomotion_mode
 
