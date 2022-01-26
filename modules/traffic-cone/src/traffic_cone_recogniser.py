@@ -11,10 +11,12 @@
 from wsgiref import headers
 
 from flask import request
+from numpy import append
 import rospy
 import requests
 import base64
 import io
+import struct
 from sensor_msgs.msg import Image
 
 def callback(data):
@@ -24,6 +26,14 @@ def callback(data):
     #dataStage2 = dataStage1.replace(']', '')
     #dataToStrArray = data.data.split(',') # dataStage2.split(',')
 
+    myByteArray = bytearray(data.data)
+    print(str(type(myByteArray)))
+    myStruct = struct.unpack('>' + 'B'*len(data.data), data.data)
+    print(str(type(myStruct)))
+
+    #print(myStruct)
+
+    #print (myByteArray)
     #print(dataToStrArray)
 
     #desired_array = [int(numeric_string) for numeric_string in data.data]
@@ -33,12 +43,16 @@ def callback(data):
 
     # print("data: " + base64.encode(data.data, dataToSend))
 
-    # new_file = open('/tmp/temp.jpg', 'w')
+    # new_file = open('/tmp/temp.jpg', 'wb')
     # new_file.write(data.data)
     # new_file.close()
 
-    new_test = open('/tmp/temp.jpg', 'rb')
-    #my_files={'files': io.BytesIO(data.data)}
+    new_file = open('/tmp/temp1.jpg', 'wb')
+    new_file.write(myStruct)
+    new_file.close()
+
+    #new_test = open('/tmp/temp.jpg', 'rb')
+    my_files={'files': io.BytesIO(myStruct)}
     #test_file = {'files': open('/root/exomy_ws/src/traffic-cone/test_file.jpg', 'rb')}
     #test_file = open('/root/exomy_ws/src/traffic-cone/test_file.jpg', 'rb')
     my_headers = {"content-type":"image/jpeg"}
@@ -47,13 +61,13 @@ def callback(data):
     raw_image_url ="http://192.168.1.89:8080/snapshot"
     PARAMS = {'topic':'/pi_cam/image_raw'}
 
-    imageGet = requests.get(raw_image_url, PARAMS)
+    #imageGet = requests.get(raw_image_url, PARAMS)
     # with open('/root/exomy_ws/src/traffic-cone/test_file_url.jpg', 'wb') as fd:
     #     for chunk in imageGet.iter_content(chunk_size=128):
     #         fd.write(chunk)
 
-    #x = requests.post(azureMlImage, test_file, headers = my_headers) # data = base64.encodebytes(data.data))
-    x = requests.post(azureMlImage, new_test, headers = my_headers)
+    x = requests.post(azureMlImage, my_files, headers = my_headers) # data = base64.encodebytes(data.data))
+    #x = requests.post(azureMlImage, new_test, headers = my_headers)
 
     rospy.loginfo("Result: " + x.text)
 
