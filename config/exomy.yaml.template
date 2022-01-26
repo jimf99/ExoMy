@@ -3,6 +3,7 @@
 # fl - front left  | fr - front right
 # cl - center left | cr - center right
 # rl - rear left   | rr - rear right
+# pan - camera pan | tilt = camera tilt
 
 # Pin numbers for motors on PWM board
 pin_drive_fl: 14
@@ -22,6 +23,9 @@ pin_steer_rl: 13
 
 pin_drive_rr: 3
 pin_steer_rr: 1
+
+pin_camera_pan: 12
+pin_camera_tilt: 13
 
 ## PWM values
 # Those values highly depend on the motors and pwm board used
@@ -43,3 +47,8 @@ drive_pwm_neutral: 307
 
 # PWW range around driving neutral position
 drive_pwm_range: 100
+
+camera_pwm_neutral_pan: 300
+camera_pwm_neutral_tilt: 300
+
+camera_pwn_range: 250

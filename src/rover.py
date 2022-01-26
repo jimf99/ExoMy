@@ -16,7 +16,7 @@ class Rover():
     FL, FR, CL, CR, RL, RR = range(0, 6)
 
     # Defining locomotion modes
-    FAKE_ACKERMANN, ACKERMANN, POINT_TURN, CRABBING = range(0, 4)
+    FAKE_ACKERMANN, ACKERMANN, POINT_TURN, CRABBING, GOFORWARD = range(0, 5)
 
     def __init__(self):
         self.locomotion_mode = LocomotionMode.FAKE_ACKERMANN
@@ -49,6 +49,15 @@ class Rover():
 
         steering_angles = [0]*6
         deg = steering_command
+
+        if(self.locomotion_mode == LocomotionMode.GOFORWARD.value):
+            steering_angles[self.FL] = 0
+            steering_angles[self.FR] = 0
+            steering_angles[self.CR] = 0
+            steering_angles[self.CL] = 0
+            steering_angles[self.RL] = 0
+            steering_angles[self.RR] = 0
+            return steering_angles
 
         if(self.locomotion_mode == LocomotionMode.FAKE_ACKERMANN.value):
             if (driving_command == 0):
@@ -185,6 +194,16 @@ class Rover():
         '''
 
         motor_speeds = [0]*6
+
+        if (self.locomotion_mode == LocomotionMode.GOFORWARD.value):
+            motor_speeds[self.FL] = 50
+            motor_speeds[self.FR] = 50
+            motor_speeds[self.CR] = 50
+            motor_speeds[self.CL] = 50
+            motor_speeds[self.RL] = 50
+            motor_speeds[self.RR] = 50
+            return motor_speeds
+
         if (self.locomotion_mode == LocomotionMode.FAKE_ACKERMANN.value):
             if(driving_command > 0 and steering_command >= 0):
                 motor_speeds[self.FL] = 50

@@ -12,6 +12,8 @@ pos_names = {
     4: 'cr',
     5: 'rl',
     6: 'rr',
+    7: 'pan',
+    8: 'tilt',
 }
 
 pin_dict = {
@@ -72,6 +74,7 @@ def print_exomy_layout():
              ||
         3 cl-||-cr 4
         5 rl====rr 6
+        7 pan tilt 8
         '''
     )
 
@@ -143,7 +146,7 @@ All other controls will be explained in the process.
             print("Pin #{}".format(pin_number))
             print(
                 'Was it a steering or driving motor that moved, or should I repeat the movement? ')
-            type_selection = raw_input('(d)rive (s)teer (r)epeat - (n)one (f)inish_configuration\n')
+            type_selection = raw_input('(d)rive (s)teer (p)an (t)ilt (r)epeat - (n)one (f)inish_configuration\n')
             if(type_selection == 'd'):
                 motor.pin_name += 'drive_'
                 print('Good job\n')
@@ -151,7 +154,15 @@ All other controls will be explained in the process.
             elif(type_selection == 's'):
                 motor.pin_name += 'steer_'
                 print('Good job\n')
-                break                
+                break
+            elif(type_selection == 'p'):
+                motor.pin_name += 'pan_'
+                print('Good job\n')
+                break
+            elif(type_selection == 't'):
+                motor.pin_name += 'tilt_'
+                print('Good job\n')
+                break    
             elif(type_selection == 'r'):
                 print('Look closely\n')
                 motor.wiggle_motor()
@@ -162,25 +173,25 @@ All other controls will be explained in the process.
                 print('Finishing calibration at pin {}.'.format(pin_number))
                 break
             else:
-                print('Input must be d, s, r, n or f\n')
+                print('Input must be d, s, p, t, r, n or f\n')
         
-        if (type_selection == 'd' or type_selection == 's'):
+        if (type_selection == 'd' or type_selection == 's' or type_selection == 'p' or type_selection == 't'):
             while(1):
                 print_exomy_layout()
                 pos_selection = raw_input(
-                    'Type the position of the motor that moved.[1-6] or (r)epeat\n')
+                    'Type the position of the motor that moved.[1-8] or (r)epeat\n')
                 if(pos_selection == 'r'):
                     print('Look closely\n')
                 else:
                     try:
                         pos = int(pos_selection)
-                        if(pos >= 1 and pos <= 6):
+                        if(pos >= 1 and pos <= 8):
                             motor.pin_name += pos_names[pos]
                             break
                         else:
-                            print('The input was not a number between 1 and 6\n')
+                            print('The input was not a number between 1 and 8\n')
                     except ValueError:
-                        print('The input was not a number between 1 and 6\n')
+                        print('The input was not a number between 1 and 8\n')
             
             pin_dict[motor.pin_name] = motor.pin_number
             print('Motor set!\n')
@@ -201,7 +212,7 @@ All other controls will be explained in the process.
         motor.wiggle_motor()
         raw_input('Press button to continue')
     
-    print("You assigned {}/12 motors.".format(len(pin_dict.keys())))
+    print("You assigned {}/16 motors.".format(len(pin_dict.keys())))
 
     print('Write to config file.\n')
     update_config_file()

@@ -25,8 +25,8 @@ def shutdown():
 
 
 def watchdog(event):
-    rospy.loginfo("Watchdog fired. Stopping driving motors.")
-    motors.stopMotors()
+    rospy.loginfo("Watchdog fired. Stopping driving motors. (But not really!)")
+    # motors.stopMotors()
 
 
 if __name__ == "__main__":
